@@ -1,0 +1,21 @@
+# Virtual environment:
+venv/
+env/
+.pyenv/
+
+# Compiled Python files:
+*.pyc
+*.pyo
+__pycache__/
+
+# IDE specific files:
+.idea/
+.vscode/
+
+# OS specific files:
+.DS_Store
+Thumbs.db
+
+# Other files:
+*.log
+*.csv
