@@ -64,7 +64,10 @@ test_input_grid = np.array([[[0, 0, 0, 0, 0],
 # Predict the next step
 predicted_frame = model.predict(test_input_grid)
 predicted_frame_binary = (predicted_frame > 0.5).astype(int)
-
+print(predicted_frame_binary)
 print("Predicted frame:")
 for row in predicted_frame_binary[0, :, :, 0]:
     print(' '.join(map(str, row)))
+
+# Save the trained model to a file
+model.save('gameoflifeml/data/GLIDER_optimal_model.h5')
