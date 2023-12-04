@@ -13,9 +13,7 @@ MODEL_TYPE = os.getenv('MODEL_TYPE', 'optimal')
 # - 'optimal': Balanced configuration, intended as a default setting
 # - 'high_end': Configuration for high-end model, more resource-intensive
 MODEL_CONFIGS = {
-    'low_end': {'SIZE': 10, 'STEPS': 5, 'NUM_SAMPLES': 500},
-    'optimal': {'SIZE': 20, 'STEPS': 10, 'NUM_SAMPLES': 2000},
-    'high_end': {'SIZE': 30, 'STEPS': 15, 'NUM_SAMPLES': 5000}
+    'optimal': {'SIZE': 15, 'STEPS': 10, 'NUM_SAMPLES': 10}
 }
 
 # current_config: Retrieves the specific configuration for the current MODEL_TYPE.
@@ -28,3 +26,7 @@ current_config = MODEL_CONFIGS.get(MODEL_TYPE, MODEL_CONFIGS['optimal'])
 SIZE = current_config['SIZE']
 STEPS = current_config['STEPS']
 NUM_SAMPLES = current_config['NUM_SAMPLES']
+
+# othERS
+PATTERN_RATIO = 0.5
+DATA_PATH = "gameoflifeml/data/"
