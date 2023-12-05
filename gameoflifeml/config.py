@@ -13,7 +13,7 @@ MODEL_TYPE = os.getenv('MODEL_TYPE', 'optimal')
 # - 'optimal': Balanced configuration, intended as a default setting
 # - 'high_end': Configuration for high-end model, more resource-intensive
 MODEL_CONFIGS = {
-    'optimal': {'SIZE': 15, 'STEPS': 10, 'NUM_SAMPLES': 10}
+    'optimal': {'SIZE': 100, 'STEPS': 2, 'NUM_SAMPLES': 10000}
 }
 
 # current_config: Retrieves the specific configuration for the current MODEL_TYPE.

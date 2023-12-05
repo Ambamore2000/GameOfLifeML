@@ -10,3 +10,4 @@ from data_generation import generate_glider_data
 from train_model import create_model
 import numpy as np
 from tqdm import tqdm
+autokeras
