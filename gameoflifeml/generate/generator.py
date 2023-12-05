@@ -4,13 +4,13 @@ from .. import config
 import matplotlib.pyplot as plt
 from gameoflifeml.generate.patterns import GLIDER
 from gameoflifeml.generate.gol import generate_data
+from gameoflifeml.generate.gol import generate_random_data
 
-def generate_training_data(name, input_grid, is_centered = False, is_transform = True):
-    #generated_data = generate_data(config.SIZE, config.STEPS, config.NUM_SAMPLES, input_grid, is_centered, is_transform)
-    generated_data = generate_data(5, 30, 100, input_grid, is_centered, is_transform)
-    file_name = f"{name}_{config.MODEL_TYPE}"
-#15, 'STEPS': 10, 'NUM_SAMPLES': 10
-    #save_plots(name, generated_data)
+def generate_training_data():
+
+    generated_data = generate_random_data(config.SIZE, config.STEPS, config.NUM_SAMPLES)
+    file_name = "RANDOM_optimal"
+
     np.save(f"{config.DATA_PATH}{file_name}.npy", generated_data)
 
 def save_plots(name, data):
@@ -29,4 +29,4 @@ def save_plots(name, data):
 if __name__ == "__main__":
     model_type = config.MODEL_TYPE
 
-    generate_training_data("GLIDER", GLIDER, is_centered = True)
+    generate_training_data()

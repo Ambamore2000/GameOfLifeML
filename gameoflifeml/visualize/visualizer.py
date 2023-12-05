@@ -2,12 +2,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from tensorflow import keras
+import tensorflow as tf
+
+def dice_coefficient(y_true, y_pred, smooth=1e-6):
+    # Flatten the tensors
+    y_true_f = tf.reshape(y_true, [-1])
+    y_pred_f = tf.reshape(y_pred, [-1])
+    
+    # Calculate intersection and union
+    intersection = tf.reduce_sum(y_true_f * y_pred_f)
+    union = tf.reduce_sum(y_true_f) + tf.reduce_sum(y_pred_f)
+    
+    # Compute Dice coefficient
+    dice = (2. * intersection + smooth) / (union + smooth)
+    return dice
 
 # Load the trained model
-model = keras.models.load_model('gameoflifeml/data/GLIDER_optimal_model.h5')
-
+model = keras.models.load_model('gameoflifeml/data/gameoflife_cnn_model.h5', 
+                                custom_objects={'dice_coefficient': dice_coefficient})
 # Assuming next_generation function from gol.py is imported
 from gameoflifeml.generate.gol import next_generation
+from gameoflifeml.train.trainer import create_random_glider
 
 def visualize_sequence(start_grid, steps):
     """
@@ -38,6 +53,12 @@ def visualize_sequence(start_grid, steps):
         axes[i, 2].imshow(next_grid, cmap='binary')
         axes[i, 2].set_title(f"Step {i}: Actual Next State")
         axes[i, 2].axis('off')
+
+        # Set borders for each subplot
+        for j in range(3):
+            for spine in axes[i, j].spines.values():
+                spine.set_edgecolor('black')
+                spine.set_linewidth(10)
 
         # Update current grid for the next iteration
         current_grid = next_grid
@@ -80,6 +101,12 @@ def animate_sequence(start_grid, steps):
         axes[2].set_title("Actual Next State")
         axes[2].axis('off')
 
+        # Set borders for each subplot
+        for ax in axes:
+            for spine in ax.spines.values():
+                spine.set_edgecolor('black')
+                spine.set_linewidth(10)
+
         # Update current grid for the next frame
         current_grid[:] = next_grid
 
@@ -90,14 +117,9 @@ def animate_sequence(start_grid, steps):
 
 
 if __name__ == "__main__":
-    start_grid = np.array([
-        [0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0],
-        [0, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0]
-    ])
+    test_grid = create_random_glider(100)
+
 
     # visualize_sequence(start_grid, 10)  # Change the number of steps as needed
     # Or, to create an animation:
-    animate_sequence(start_grid, 10)
+    animate_sequence(test_grid, 10)

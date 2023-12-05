@@ -129,3 +129,35 @@ def generate_data(size, steps, num_samples, input_grid, is_centered=False, is_tr
             grid = next_generation(grid)
 
     return np.array(data)
+
+def generate_random_data(size, steps, num_samples):
+    """
+    Generate a dataset of grid sequences for Conway's Game of Life with random initial states.
+
+    Parameters:
+    - size (int): Size of the grid.
+    - steps (int): Number of generations to simulate.
+    - num_samples (int): Number of samples to generate.
+
+    Returns:
+    - np.array: A 3D NumPy array containing sequences of game states.
+    """
+    data = []
+
+    for _ in tqdm(range(num_samples), desc="Generating Data"):
+        # Initialize a random grid
+        grid = np.random.randint(2, size=(size, size), dtype=int)
+
+        # Record the initial state
+        sequence = [grid.copy()]
+
+        # Generate the subsequent states
+        for _ in range(steps - 1):
+            grid = next_generation(grid)
+            sequence.append(grid.copy())
+
+        # Append the sequence to the data
+        data.append(sequence)
+
+    # Convert the list of sequences to a 3D NumPy array (num_samples, steps, size*size)
+    return np.array(data).reshape(num_samples, steps, size, size)
